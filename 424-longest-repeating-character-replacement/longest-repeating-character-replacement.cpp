@@ -5,18 +5,26 @@ public:
         int r=0,l=0;
         int maxlen=0;
         int maxi=0;
-        vector<int> hash(26,0);
+        unordered_map<char,int> mpp;
+        // vector<int> hash(26,0);
         while(r<n)
         {
-            hash[s[r]-'A']++;
-            maxi=max(maxi,hash[s[r]-'A']);
+            mpp[s[r]]++;
+            //hash[s[r]-'A']++;
+            maxi=max(maxi,mpp[s[r]]);
             while((r-l+1)-maxi>k)
             {
-                hash[s[l]-'A']--;
+               mpp[s[l]]--;
+               if(mpp[s[l]]==0)
+               {
+                mpp.erase(s[l]);
+               }
                 maxi=0;
-                for(int i=0;i<26;i++)
+                auto it=mpp.begin();
+                while(it!=mpp.end())
                 {
-                    maxi=max(maxi,hash[i]);
+                    maxi=max(maxi,it->second);
+                    it++;
                 }
                 l++;
             }
